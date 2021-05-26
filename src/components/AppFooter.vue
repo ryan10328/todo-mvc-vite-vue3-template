@@ -2,7 +2,7 @@
   <footer class="footer">
     <!-- This should be `0 items left` by default -->
     <span class="todo-count">
-      <strong>0</strong> item left
+      <strong>{{itemsLeft}}</strong> item left
     </span>
     <!-- Remove this if you don't implement routing -->
     <ul class="filters">
@@ -23,7 +23,10 @@
 
 <script>
 export default {
-  setup() {
+  props: {
+    itemsLeft: Number,
+  },
+  setup(props, ctx) {
     return {};
   },
 };

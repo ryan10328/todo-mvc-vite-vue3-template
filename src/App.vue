@@ -19,7 +19,7 @@
       </ul>
     </section>
     <!-- This footer should be hidden by default and shown when there are todos -->
-    <AppFooter></AppFooter>
+    <AppFooter :items-left="itemsLeft"></AppFooter>
   </section>
 </template>
 
@@ -27,7 +27,7 @@
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import AppFooter from "./components/AppFooter.vue";
-import { reactive, toRefs } from "vue";
+import { computed, reactive, toRefs } from "vue";
 export default {
   components: {
     AppHeader,
@@ -50,9 +50,14 @@ export default {
       obj.tasks.splice(index, 1);
     };
 
+    const itemsLeft = computed(() => {
+      return obj.tasks.filter((g) => !g.done).length;
+    });
+
     return {
       onTaskCreate,
       removeTask,
+      itemsLeft,
       ...toRefs(obj),
     };
   },
