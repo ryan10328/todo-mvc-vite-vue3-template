@@ -1,9 +1,6 @@
 <template>
   <section class="todoapp">
-    <header class="header">
-      <h1>todos</h1>
-      <input class="new-todo" placeholder="What needs to be done?" autofocus />
-    </header>
+    <AppHeader v-on:create:task="onTaskCreate($event)"></AppHeader>
     <!-- This section should be hidden by default and shown when there are todos -->
     <section class="main">
       <input id="toggle-all" class="toggle-all" type="checkbox" />
@@ -53,9 +50,23 @@
   </section>
 </template>
 
-<script setup>
-// This starter template is using Vue 3 experimental <script setup> SFCs
-// Check out https://github.com/vuejs/rfcs/blob/script-setup-2/active-rfcs/0000-script-setup.md
+
+<script>
+import AppHeader from "./components/AppHeader.vue";
+export default {
+  components: {
+    AppHeader,
+  },
+  setup() {
+    let onTaskCreate = (evt) => {
+      console.log(evt);
+    };
+
+    return {
+      onTaskCreate,
+    };
+  },
+};
 </script>
 
 <style lang="scss">
