@@ -15,11 +15,12 @@
 import { ref } from "vue";
 export default {
   setup(_, ctx) {
-    let text = ref("");
-    let createTask = () => {
+    const text = ref("");
+    const createTask = () => {
       ctx.emit("create:task", text.value);
       text.value = "";
     };
+
     return {
       text,
       createTask,

@@ -1,9 +1,9 @@
 <template>
   <section class="todoapp">
-    <AppHeader v-on:create:task="onTaskCreate($event)"></AppHeader>
+    <AppHeader v-on:create:task="onTaskCreate($event)" v-on:toggle:all="onToggleAll"></AppHeader>
     <!-- This section should be hidden by default and shown when there are todos -->
     <section class="main">
-      <input id="toggle-all" class="toggle-all" type="checkbox" />
+      <input id="toggle-all" class="toggle-all" type="checkbox" v-model="checked" />
       <label for="toggle-all">Mark all as complete</label>
       <ul class="todo-list">
         <!-- These are here just to show the structure of the list items -->
@@ -38,6 +38,7 @@ export default {
     AppFooter,
   },
   setup() {
+    const checked = ref(false);
     const filteredTasks = ref([]);
     const obj = reactive({
       flag: "",
@@ -64,6 +65,19 @@ export default {
       obj.tasks = obj.tasks.filter((g) => !g.done);
     };
 
+    const onToggleAll = (evt) => {
+      console.log(evt.target.value);
+      obj.tasks.forEach((g) => {
+        g.done = !g.done;
+      });
+    };
+
+    watch(checked, (val, newVal) => {
+      obj.tasks.forEach((g) => {
+        g.done = val;
+      });
+    });
+
     watch(obj, (val, newVal) => {
       switch (newVal.flag) {
         case "all":
@@ -86,6 +100,8 @@ export default {
       onTaskCreate,
       onSelectedChange,
       onClearClicked,
+      onToggleAll,
+      checked,
       filteredTasks,
       removeTask,
       itemsLeft,
