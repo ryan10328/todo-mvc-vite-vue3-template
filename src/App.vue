@@ -8,7 +8,7 @@
       <ul class="todo-list">
         <!-- These are here just to show the structure of the list items -->
         <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-        <li :class="{ completed: item.done }" v-for="(item, index) in tasks" v-bind:key="index">
+        <li :class="{ completed: item.done }" v-for="(item, index) in tasks" :key="index">
           <div class="view">
             <input class="toggle" type="checkbox" v-model="item.done" />
             <label>{{item?.text}}</label>
