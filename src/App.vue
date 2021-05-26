@@ -8,21 +8,13 @@
       <ul class="todo-list">
         <!-- These are here just to show the structure of the list items -->
         <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
-        <li class="completed">
+        <li :class="{ completed: item.done }" v-for="(item, index) in tasks" v-bind:key="index">
           <div class="view">
-            <input class="toggle" type="checkbox" checked />
-            <label>Taste JavaScript</label>
-            <button class="destroy"></button>
+            <input class="toggle" type="checkbox" v-model="item.done" />
+            <label>{{item?.text}}</label>
+            <button class="destroy" @click="removeTask(index)"></button>
           </div>
           <input class="edit" value="Create a TodoMVC template" />
-        </li>
-        <li>
-          <div class="view">
-            <input class="toggle" type="checkbox" />
-            <label>Buy a unicorn</label>
-            <button class="destroy"></button>
-          </div>
-          <input class="edit" value="Rule the web" />
         </li>
       </ul>
     </section>
@@ -35,19 +27,33 @@
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import AppFooter from "./components/AppFooter.vue";
-import { computed } from "vue";
+import { reactive, toRefs } from "vue";
 export default {
   components: {
     AppHeader,
     AppFooter,
   },
   setup() {
-    let onTaskCreate = (evt) => {
-      console.log(evt);
+    const obj = reactive({
+      tasks: [],
+    });
+
+    const onTaskCreate = (evt) => {
+      obj.tasks.push({
+        done: false,
+        text: evt,
+        id: Date.now(),
+      });
+    };
+
+    const removeTask = (index) => {
+      obj.tasks.splice(index, 1);
     };
 
     return {
       onTaskCreate,
+      removeTask,
+      ...toRefs(obj),
     };
   },
 };
